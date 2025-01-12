@@ -18,15 +18,10 @@ public class StudentController : Controller
 
 	public async Task<IActionResult> Index()
 	{
-    	var response = await _httpClient.GetStringAsync("api/students");
+    	var response = await _httpClient.GetStringAsync("https://databaseca-f0bmfzchfccuasg2.northeurope-01.azurewebsites.net/api/students");
         var students = JsonConvert.DeserializeObject<List<Student>>(response);
 
 		return View(students);
-	}
-
-	public IActionResult Privacy()
-	{
-		return View();
 	}
 
 	[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
