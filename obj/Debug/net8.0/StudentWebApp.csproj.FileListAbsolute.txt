@@ -1,0 +1,8 @@
+/Users/christian/Docs/Projects/StudentDbCa/StudentWebApp/obj/Debug/net8.0/StudentWebApp.GeneratedMSBuildEditorConfig.editorconfig
+/Users/christian/Docs/Projects/StudentDbCa/StudentWebApp/obj/Debug/net8.0/StudentWebApp.AssemblyInfoInputs.cache
+/Users/christian/Docs/Projects/StudentDbCa/StudentWebApp/obj/Debug/net8.0/StudentWebApp.AssemblyInfo.cs
+/Users/christian/Docs/Projects/StudentDbCa/StudentWebApp/obj/Debug/net8.0/StudentWebApp.csproj.CoreCompileInputs.cache
+/Users/christian/Docs/Projects/StudentDbCa/StudentWebApp/obj/Debug/net8.0/StudentWebApp.MvcApplicationPartsAssemblyInfo.cache
+/Users/christian/Docs/Projects/StudentDbCa/StudentWebApp/obj/Debug/net8.0/StudentWebApp.RazorAssemblyInfo.cache
+/Users/christian/Docs/Projects/StudentDbCa/StudentWebApp/obj/Debug/net8.0/StudentWebApp.RazorAssemblyInfo.cs
+/Users/christian/Docs/Projects/StudentDbCa/StudentWebApp/obj/Debug/net8.0/StudentWebApp.sourcelink.json
