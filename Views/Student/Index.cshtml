@@ -7,10 +7,23 @@
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
     <h2>Students</h2>
-    <ul>
-        @foreach (var student in Model)
-        {
-            <li>@student.Name, @student.Age years old, studying @student.Major</li>
-        }
-    </ul>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Major</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var student in Model)
+            {
+                <tr>
+                    <td>@student.Name</td>
+                    <td>@student.Age</td>
+                    <td>@student.Major</td>
+                </tr>
+            }
+        </tbody>
+    </table>
 </div>
