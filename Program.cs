@@ -4,7 +4,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddHttpClient<StudentController>(client =>
 {
-	client.BaseAddress = new Uri("https://databaseca-f0bmfzchfccuasg2.northeurope-01.azurewebsites.net");
+    client.BaseAddress = new Uri("https://databaseca-f0bmfzchfccuasg2.northeurope-01.azurewebsites.net/");
 });
 
 // Add services to the container.
