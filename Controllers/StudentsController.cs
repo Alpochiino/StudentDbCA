@@ -39,7 +39,7 @@ public class StudentController : Controller
 			var json = JsonConvert.SerializeObject(student);
 			var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-			var response = await _httpClient.PostAsync("api/students", content);
+			var response = await _httpClient.PostAsync("https://databaseca-f0bmfzchfccuasg2.northeurope-01.azurewebsites.net/api/students", content);
 
 			if (response.IsSuccessStatusCode)
 			{
