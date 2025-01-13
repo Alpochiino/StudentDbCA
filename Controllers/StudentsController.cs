@@ -17,6 +17,7 @@ public class StudentController : Controller
 		_httpClient = httpClient;
 	}
 
+    // GET: /Student/Index
 	public async Task<IActionResult> Index()
 	{
 		var response = await _httpClient.GetStringAsync("https://databaseca-f0bmfzchfccuasg2.northeurope-01.azurewebsites.net/api/students");
@@ -25,12 +26,14 @@ public class StudentController : Controller
 		return View(students);
 	}
 	
+	// GET: /Student/Create
 	[HttpGet]
 	public IActionResult Create()
 	{
 		return View();
 	}
 
+	// POST: /Student/Create
 	[HttpPost]
 	public async Task<IActionResult> Create(Student student)
 	{
@@ -44,6 +47,11 @@ public class StudentController : Controller
 			if (response.IsSuccessStatusCode)
 			{
 				return RedirectToAction("Index");
+			}
+			else
+			{
+				ModelState.AddModelError(string.Empty, "Error while creating student.");
+				return View(student);
 			}
 		}
 
