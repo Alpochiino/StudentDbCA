@@ -6,6 +6,7 @@ using StudentWebApp.Models;
 using System.Diagnostics;
 using System.Net.Http;
 using System.Threading.Tasks;
+using System.Text;
 
 public class StudentController : Controller
 {
@@ -25,29 +26,29 @@ public class StudentController : Controller
 	}
 	
 /* 	[HttpGet]
-    public IActionResult Create()
-    {
-        return View();
-    } */
+	public IActionResult Create()
+	{
+		return View();
+	} */
 
-    [HttpPost]
-    public async Task<IActionResult> Create(Student student)
-    {
-        if (ModelState.IsValid)
-        {
-            var json = JsonConvert.SerializeObject(student);
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
+	[HttpPost]
+	public async Task<IActionResult> Create(Student student)
+	{
+		if (ModelState.IsValid)
+		{
+			var json = JsonConvert.SerializeObject(student);
+			var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var response = await _httpClient.PostAsync("api/students", content);
+			var response = await _httpClient.PostAsync("api/students", content);
 
-            if (response.IsSuccessStatusCode)
-            {
-                return RedirectToAction("Index");
-            }
-        }
+			if (response.IsSuccessStatusCode)
+			{
+				return RedirectToAction("Index");
+			}
+		}
 
-        return View(student);
-    }
+		return View(student);
+	}
 
 	[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
 	public IActionResult Error()
