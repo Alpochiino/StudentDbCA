@@ -25,11 +25,11 @@ public class StudentController : Controller
 		return View(students);
 	}
 	
-/* 	[HttpGet]
+	[HttpGet]
 	public IActionResult Create()
 	{
 		return View();
-	} */
+	}
 
 	[HttpPost]
 	public async Task<IActionResult> Create(Student student)
