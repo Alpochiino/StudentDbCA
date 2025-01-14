@@ -63,7 +63,7 @@ public class StudentController : Controller
 	
 	// GET: /Student/Edit/{id}
 	[HttpGet]
-	public async Task<IActionResult> EditStudent(int id)
+	public async Task<IActionResult> Edit(int id)
 	{
 		var response = await _httpClient.GetAsync($"https://databaseca-f0bmfzchfccuasg2.northeurope-01.azurewebsites.net/api/students/{id}");
 		if (response.IsSuccessStatusCode)
@@ -77,27 +77,48 @@ public class StudentController : Controller
 		return RedirectToAction("Index");
 	}
 
-	// POST: /Student/Edit
+	// POST: /Student/Edit/{id}
 	[HttpPost]
-	public async Task<IActionResult> EditStudent(Student student)
+	public async Task<IActionResult> Edit(int id, Student student)
 	{
-		if (!ModelState.IsValid)
+		if (id != student.Id)
 		{
-			return View(student);
+			return BadRequest("ID mismatch.");
 		}
 
-		var jsonContent = new StringContent(JsonConvert.SerializeObject(student), Encoding.UTF8, "application/json");
-		var response = await _httpClient.PutAsync($"https://databaseca-f0bmfzchfccuasg2.northeurope-01.azurewebsites.net/api/students/{student.Id}", jsonContent);
+		if (ModelState.IsValid)
+		{
+			var jsonContent = new StringContent(JsonConvert.SerializeObject(student), Encoding.UTF8, "application/json");
+			var response = await _httpClient.PutAsync($"https://databaseca-f0bmfzchfccuasg2.northeurope-01.azurewebsites.net/api/students/{id}", jsonContent);
+
+			if (response.IsSuccessStatusCode)
+			{
+				_logger.LogInformation($"Successfully updated student with ID {student.Id}.");
+				return RedirectToAction("Index");
+			}
+
+			_logger.LogError($"Failed to update student with ID {student.Id}. Status: {response.StatusCode}");
+			ModelState.AddModelError(string.Empty, "Error while updating student.");
+		}
+
+		return View(student);
+	}
+	
+	// POST: /Student/Delete/{id}
+	[HttpPost]
+	public async Task<IActionResult> DeleteStudent(int id)
+	{
+		var response = await _httpClient.DeleteAsync($"https://databaseca-f0bmfzchfccuasg2.northeurope-01.azurewebsites.net/api/students/{id}");
 
 		if (response.IsSuccessStatusCode)
 		{
-			_logger.LogInformation($"Successfully updated student with ID {student.Id}.");
+			_logger.LogInformation($"Successfully deleted student with ID {id}.");
 			return RedirectToAction("Index");
 		}
 
-		_logger.LogError($"Failed to update student with ID {student.Id}. Status: {response.StatusCode}");
-		ModelState.AddModelError(string.Empty, "Error while updating student.");
-		return View(student);
+		_logger.LogError($"Failed to delete student with ID {id}. Status: {response.StatusCode}");
+		ModelState.AddModelError(string.Empty, "Error while deleting student.");
+		return RedirectToAction("Index");
 	}
 
 	[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

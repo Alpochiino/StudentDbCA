@@ -1,0 +1,10 @@
+{
+    "configurations": [
+        {
+            "name": "C#: StudentWebApp",
+            "type": "dotnet",
+            "request": "launch",
+            "projectPath": "${workspaceFolder}/StudentWebApp.csproj"
+        }
+    ]
+}
