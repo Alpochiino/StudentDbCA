@@ -39,30 +39,25 @@ public class StudentController : Controller
 	[HttpPost]
 	public async Task<IActionResult> Create(Student student)
 	{
-		_logger.LogInformation("Attempting to create a new student.");
 
 		if (ModelState.IsValid)
 		{
 			var json = JsonConvert.SerializeObject(student);
 			var content = new StringContent(json, Encoding.UTF8, "application/json");
-			_logger.LogInformation($"Sending POST request to API with data: {json}");
 
 			var response = await _httpClient.PostAsync("http://databaseca-f0bmfzchfccuasg2.northeurope-01.azurewebsites.net/api/students", content);
 
 			if (response.IsSuccessStatusCode)
 			{
-				_logger.LogInformation("Successfully created student.");
 				return RedirectToAction("Index");
 			}
 			else
 			{
-				_logger.LogError($"Failed to create student. HTTP Status: {response.StatusCode}");
 				ModelState.AddModelError(string.Empty, "Error while creating student.");
 				return View(student);
 			}
 		}
 
-		_logger.LogError("Model state is invalid. Could not create student.");
 		return View(student);
 	}
 
