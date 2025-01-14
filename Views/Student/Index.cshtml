@@ -13,6 +13,7 @@
                 <th>Name</th>
                 <th>Age</th>
                 <th>Major</th>
+                <th>Actions</th> 
             </tr>
         </thead>
         <tbody>
@@ -22,7 +23,12 @@
                     <td>@student.Name</td>
                     <td>@student.Age</td>
                     <td>@student.Major</td>
-                </tr>
+                    <td>
+                        <a href="@Url.Action("Edit", "Student", new { id = student.Id })">
+                            <i class="bi bi-pencil-square icon-black" style="font-size: 20px;"></i>
+                        </a>
+                    </td>
+                </tr>   
             }
         </tbody>
     </table>

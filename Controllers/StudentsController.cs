@@ -60,6 +60,45 @@ public class StudentController : Controller
 
 		return View(student);
 	}
+	
+	// GET: /Student/Edit/{id}
+	[HttpGet]
+	public async Task<IActionResult> EditStudent(int id)
+	{
+		var response = await _httpClient.GetAsync($"https://databaseca-f0bmfzchfccuasg2.northeurope-01.azurewebsites.net/api/students/{id}");
+		if (response.IsSuccessStatusCode)
+		{
+			var studentJson = await response.Content.ReadAsStringAsync();
+			var student = JsonConvert.DeserializeObject<Student>(studentJson);
+			return View(student);
+		}
+
+		_logger.LogError($"Failed to load student with ID {id}. Status: {response.StatusCode}");
+		return RedirectToAction("Index");
+	}
+
+	// POST: /Student/Edit
+	[HttpPost]
+	public async Task<IActionResult> EditStudent(Student student)
+	{
+		if (!ModelState.IsValid)
+		{
+			return View(student);
+		}
+
+		var jsonContent = new StringContent(JsonConvert.SerializeObject(student), Encoding.UTF8, "application/json");
+		var response = await _httpClient.PutAsync($"https://databaseca-f0bmfzchfccuasg2.northeurope-01.azurewebsites.net/api/students/{student.Id}", jsonContent);
+
+		if (response.IsSuccessStatusCode)
+		{
+			_logger.LogInformation($"Successfully updated student with ID {student.Id}.");
+			return RedirectToAction("Index");
+		}
+
+		_logger.LogError($"Failed to update student with ID {student.Id}. Status: {response.StatusCode}");
+		ModelState.AddModelError(string.Empty, "Error while updating student.");
+		return View(student);
+	}
 
 	[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
 	public IActionResult Error()
