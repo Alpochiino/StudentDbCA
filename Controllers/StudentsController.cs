@@ -22,7 +22,7 @@ public class StudentController : Controller
 	// GET: /Student/Index
 	public async Task<IActionResult> Index()
 	{
-		var response = await _httpClient.GetStringAsync("https://studentsdbca-gtddcfe8gfdja4b5.northeurope-01.azurewebsites.net/api/students");
+		var response = await _httpClient.GetStringAsync("https://studentapi-app.yellowpond-a7234cf9.northeurope.azurecontainerapps.io/api/students");
 		var students = JsonConvert.DeserializeObject<List<Student>>(response);
 
 		return View(students);
@@ -45,7 +45,7 @@ public class StudentController : Controller
 			var json = JsonConvert.SerializeObject(student);
 			var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-			var response = await _httpClient.PostAsync("https://studentsdbca-gtddcfe8gfdja4b5.northeurope-01.azurewebsites.net/api/students/", content);
+			var response = await _httpClient.PostAsync("https://studentapi-app.yellowpond-a7234cf9.northeurope.azurecontainerapps.io/api/students/", content);
 
 			if (response.IsSuccessStatusCode)
 			{
@@ -65,7 +65,7 @@ public class StudentController : Controller
 	[HttpGet]
 	public async Task<IActionResult> Edit(int id)
 	{
-		var response = await _httpClient.GetAsync($"https://studentsdbca-gtddcfe8gfdja4b5.northeurope-01.azurewebsites.net/api/students/{id}");
+		var response = await _httpClient.GetAsync($"https://studentapi-app.yellowpond-a7234cf9.northeurope.azurecontainerapps.io/api/students/{id}");
 		if (response.IsSuccessStatusCode)
 		{
 			var studentJson = await response.Content.ReadAsStringAsync();
@@ -89,7 +89,7 @@ public class StudentController : Controller
 		if (ModelState.IsValid)
 		{
 			var jsonContent = new StringContent(JsonConvert.SerializeObject(student), Encoding.UTF8, "application/json");
-			var response = await _httpClient.PutAsync($"https://studentsdbca-gtddcfe8gfdja4b5.northeurope-01.azurewebsites.net/api/students/{id}", jsonContent);
+			var response = await _httpClient.PutAsync($"https://studentapi-app.yellowpond-a7234cf9.northeurope.azurecontainerapps.io/api/students/{id}", jsonContent);
 
 			if (response.IsSuccessStatusCode)
 			{
@@ -108,7 +108,7 @@ public class StudentController : Controller
 	[HttpPost]
 	public async Task<IActionResult> DeleteStudent(int id)
 	{
-		var response = await _httpClient.DeleteAsync($"https://studentsdbca-gtddcfe8gfdja4b5.northeurope-01.azurewebsites.net/api/students/{id}");
+		var response = await _httpClient.DeleteAsync($"https://studentapi-app.yellowpond-a7234cf9.northeurope.azurecontainerapps.io/api/students/{id}");
 
 		if (response.IsSuccessStatusCode)
 		{
