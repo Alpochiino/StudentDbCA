@@ -3,24 +3,16 @@ namespace StudentWebApp.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using StudentWebApp.Models;
-using System.Diagnostics;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Text;
 
-public class StudentController : Controller
+public class StudentController(HttpClient httpClient) : Controller
 {
-	private readonly HttpClient _httpClient;
-	private readonly ILogger<StudentController> _logger;
+	private readonly HttpClient _httpClient = httpClient;
 
-	public StudentController(HttpClient httpClient, ILogger<StudentController> logger)
-	{
-		_httpClient = httpClient;
-		_logger = logger;
-	}
-
-	// GET: /Student/Index
-	public async Task<IActionResult> Index()
+    // GET: /Student/Index
+    public async Task<IActionResult> Index()
 	{
 		var response = await _httpClient.GetStringAsync("https://studentapi-app.yellowpond-a7234cf9.northeurope.azurecontainerapps.io/api/students");
 		var students = JsonConvert.DeserializeObject<List<Student>>(response);
@@ -53,7 +45,6 @@ public class StudentController : Controller
 			}
 			else
 			{
-				ModelState.AddModelError(string.Empty, "Error while creating student.");
 				return View(student);
 			}	
 		}
@@ -73,7 +64,6 @@ public class StudentController : Controller
 			return View(student);
 		}
 
-		_logger.LogError($"Failed to load student with ID {id}. Status: {response.StatusCode}");
 		return RedirectToAction("Index");
 	}
 
@@ -93,12 +83,8 @@ public class StudentController : Controller
 
 			if (response.IsSuccessStatusCode)
 			{
-				_logger.LogInformation($"Successfully updated student with ID {student.Id}.");
 				return RedirectToAction("Index");
 			}
-
-			_logger.LogError($"Failed to update student with ID {student.Id}. Status: {response.StatusCode}");
-			ModelState.AddModelError(string.Empty, "Error while updating student.");
 		}
 
 		return View(student);
@@ -112,18 +98,9 @@ public class StudentController : Controller
 
 		if (response.IsSuccessStatusCode)
 		{
-			_logger.LogInformation($"Successfully deleted student with ID {id}.");
 			return RedirectToAction("Index");
 		}
 
-		_logger.LogError($"Failed to delete student with ID {id}. Status: {response.StatusCode}");
-		ModelState.AddModelError(string.Empty, "Error while deleting student.");
 		return RedirectToAction("Index");
-	}
-
-	[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-	public IActionResult Error()
-	{
-		return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
 	}
 }
