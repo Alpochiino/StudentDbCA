@@ -1,24 +1,29 @@
 @model StudentWebApp.Models.Student
 
+<h1>Edit Student @Model.Name</h1>
+
 <form asp-action="Edit" method="post">
-    <input type="hidden" id="editFormId" name="Id" />
-    <div class="form-group mb-3">
-        <label asp-for="Name" class="form-label"></label>
-        <input id="editFormName" name="Name" class="form-control" />
+    <input type="hidden" name="Id" value="@Model.Id" />
+
+    <div class="form-group" style="margin-bottom: 5px;">
+        <label asp-for="Name"></label>
+        <input asp-for="Name" class="form-control" />
         <span asp-validation-for="Name" class="text-danger"></span>
     </div>
 
-    <div class="form-group mb-3">
-        <label asp-for="Age" class="form-label"></label>
-        <input id="editFormAge" name="Age" class="form-control" />
+    <div class="form-group" style="margin-bottom: 5px;">
+        <label asp-for="Age"></label>
+        <input asp-for="Age" class="form-control" />
         <span asp-validation-for="Age" class="text-danger"></span>
     </div>
 
-    <div class="form-group mb-3">
-        <label asp-for="Major" class="form-label"></label>
-        <input id="editFormMajor" name="Major" class="form-control" />
+    <div class="form-group" style="margin-bottom: 10px;">
+        <label asp-for="Major"></label>
+        <input asp-for="Major" class="form-control" />
         <span asp-validation-for="Major" class="text-danger"></span>
     </div>
 
-    <button type="submit" class="btn btn-primary">Update</button>
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Update</button>
+    </div>
 </form>
