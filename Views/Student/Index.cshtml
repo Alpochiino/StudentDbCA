@@ -7,9 +7,9 @@
 <div class="text-center">
     <h1 class="display-4">Students</h1>
     <div style="position: relative;">
-        <button class="btn btn-link" data-bs-toggle="modal" data-bs-target="#createModal" style="position: absolute; right: 125px; top: -45px; font-size: 24px;">
+        <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#createModal" style="position: absolute; right: 125px; top: -45px; font-size: 24px;">
             <i class="bi bi-plus-circle icon-black"></i>
-        </button>
+        </a>
     </div>
 
     <table class="table">
@@ -29,7 +29,7 @@
                     <td>@student.Age</td>
                     <td>@student.Major</td>
                     <td style="white-space: nowrap;">
-                        <button class="btn btn-link p-0" data-bs-toggle="modal" data-bs-target="#editModal" onclick="setStudentToEdit(@Html.Raw(Json.Serialize(student)))" style="text-decoration: none;">
+                        <button class="btn btn-link p-0" style="border: none; background: none; color: black;" data-bs-toggle="modal" data-bs-target="#editModal" onclick="setStudentToEdit(@student.Id)">
                             <i class="bi bi-pencil-square icon-black" style="font-size: 20px;"></i>
                         </button>
                         <button class="btn btn-link p-0" style="border: none; background: none; color: black;" data-bs-toggle="modal" data-bs-target="#deleteModal" onclick="setStudentIdToDelete(@student.Id)">
@@ -42,21 +42,23 @@
     </table>
 </div>
 
-<div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
+<!-- Create Modal -->
+<div class="modal" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="createModalLabel">Create Student</h5>
+                <h5 class="modal-title" id="createModalLabel">Create New Student</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                @await Html.PartialAsync("Create")
+                @Html.Partial("Create")
             </div>
         </div>
     </div>
 </div>
 
-<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+<!-- Edit Modal -->
+<div class="modal" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -64,13 +66,14 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                @await Html.PartialAsync("Edit")
+                @Html.Partial("Edit", Model.FirstOrDefault())
             </div>
         </div>
     </div>
 </div>
 
-<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+<!-- Delete Modal -->
+<div class="modal" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -92,14 +95,15 @@
 </div>
 
 <script>
-    function setStudentToEdit(student) {
-        document.getElementById('editFormId').value = student.Id;
-        document.getElementById('editFormName').value = student.Name;
-        document.getElementById('editFormAge').value = student.Age;
-        document.getElementById('editFormMajor').value = student.Major;
+    let studentIdField = document.getElementById('studentIdToDelete')
+    function setStudentIdToDelete(studentId) {
+        studentIdField.value = studentId;
     }
 
-    function setStudentIdToDelete(studentId) {
-        document.getElementById('studentIdToDelete').value = studentId;
+    function setStudentToEdit(studentId) {
+        const form = document.querySelector("#editModal .modal-body");
+        fetch(`/Student/Edit/${studentId}`)
+            .then(response => response.text())
+            .then(html => form.innerHTML = html);
     }
 </script>
