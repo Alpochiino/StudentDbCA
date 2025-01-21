@@ -7,9 +7,9 @@
 <div class="text-center">
     <h1 class="display-4">Students</h1>
     <div style="position: relative;">
-        <a href="@Url.Action("Create", "Student")" style="position: absolute; right: 125px; top: -45px; font-size: 24px;">
+        <button class="btn btn-link" data-bs-toggle="modal" data-bs-target="#createModal" style="position: absolute; right: 125px; top: -45px; font-size: 24px;">
             <i class="bi bi-plus-circle icon-black"></i>
-        </a>
+        </button>
     </div>
 
     <table class="table">
@@ -29,9 +29,9 @@
                     <td>@student.Age</td>
                     <td>@student.Major</td>
                     <td style="white-space: nowrap;">
-                        <a href="@Url.Action("Edit", "Student", new { id = student.Id })" style="margin-right: 8px; text-decoration: none;">
+                        <button class="btn btn-link p-0" data-bs-toggle="modal" data-bs-target="#editModal" onclick="setStudentToEdit(@Html.Raw(Json.Serialize(student)))" style="text-decoration: none;">
                             <i class="bi bi-pencil-square icon-black" style="font-size: 20px;"></i>
-                        </a>
+                        </button>
                         <button class="btn btn-link p-0" style="border: none; background: none; color: black;" data-bs-toggle="modal" data-bs-target="#deleteModal" onclick="setStudentIdToDelete(@student.Id)">
                             <i class="bi bi-trash icon-black" style="font-size: 20px;"></i>
                         </button>
@@ -41,7 +41,36 @@
         </tbody>
     </table>
 </div>
-<div class="modal" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+
+<div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createModalLabel">Create Student</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                @await Html.PartialAsync("_Create")
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel">Edit Student</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                @await Html.PartialAsync("_Edit")
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -63,9 +92,14 @@
 </div>
 
 <script>
-    let studentIdField = document.getElementById('studentIdToDelete')
+    function setStudentToEdit(student) {
+        document.getElementById('editFormId').value = student.Id;
+        document.getElementById('editFormName').value = student.Name;
+        document.getElementById('editFormAge').value = student.Age;
+        document.getElementById('editFormMajor').value = student.Major;
+    }
 
     function setStudentIdToDelete(studentId) {
-        setStudentId.value = studentId;
+        document.getElementById('studentIdToDelete').value = studentId;
     }
 </script>
